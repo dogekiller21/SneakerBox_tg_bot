@@ -14,10 +14,9 @@ dp = Dispatcher(bot=bot, storage=storage)
 
 def main():
     from handlers import dp
+
     loop = asyncio.new_event_loop()
-    loop.create_task(
-        dp.start_polling(fast=True)
-    )
+    loop.create_task(dp.start_polling(fast=True))
     loop.run_forever()
 
 

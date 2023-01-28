@@ -1,4 +1,3 @@
-
 PARSE_TAGS_COMMAND_MESSAGE = (
     "*Введите текст с почты*\n\n"
     "*Формат:*\n"
@@ -10,6 +9,4 @@ PARSE_TAGS_COMMAND_MESSAGE = (
     "```"
 )
 
-REGEX_TAGS_TEXT_ERROR = (
-    "Ни одна из строк текста не подходит"
-)
+REGEX_TAGS_TEXT_ERROR = "Ни одна из строк текста не подходит"

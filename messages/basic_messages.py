@@ -10,3 +10,10 @@ PARSE_TAGS_COMMAND_MESSAGE = (
 )
 
 REGEX_TAGS_TEXT_ERROR = "Ни одна из строк текста не подходит"
+
+
+# Message with formatting
+LOWER_THEN_MIN_ROWS_MESSAGE = (
+    "*Вы отправили меньше 32 позиций*\n"
+    "_Всего отправлено: *{count}*_"
+)

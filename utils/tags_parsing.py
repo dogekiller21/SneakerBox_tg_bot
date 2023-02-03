@@ -2,8 +2,13 @@ import re
 from collections import Counter
 
 
-def regex_rows(text: str) -> list[str]:
+def regex_upc_rows(text: str) -> list[str]:
     pattern = re.compile(r"\[UPC-EAN]: \d+")
+    return re.findall(pattern, text)
+
+
+def regex_upc_and_stock_rows(text: str) -> list[str]:
+    pattern = re.compile(r"\[UPC-EAN]: \d+|\[C128]: \d+")
     return re.findall(pattern, text)
 
 
@@ -18,3 +23,7 @@ def parse_tags_from_text(rows: list[str]) -> list[str]:
 
 def count_parsed_tags(parsed_tags: list[str]) -> dict[str, int]:
     return {tag: count for tag, count in Counter(parsed_tags).items() if count > 1}
+
+
+def process_upc_rows(upc_rows: list[str]):
+    ...

@@ -1,10 +1,21 @@
-PARSE_TAGS_COMMAND_MESSAGE = (
+PARSE_RE_EVAL_COMMAND_MESSAGE = (
     "*Введите текст с почты*\n\n"
     "*Формат:*\n"
     "```\n"
     "[UPC-EAN]: 1234567890123\n"
     "[UPC-EAN]: 1234567890123\n"
     "[UPC-EAN]: 1234567890123\n"
+    "..."
+    "```"
+)
+
+PARSE_STOCK_COMMAND_MESSAGE = (
+    "*Введите текст с почты*\n\n"
+    "*Формат:*\n"
+    "```\n"
+    "[UPC-EAN]: 1234567890123\n"
+    "[UPC-EAN]: 1234567890123\n"
+    "[C128]: 1234567890\n"
     "..."
     "```"
 )

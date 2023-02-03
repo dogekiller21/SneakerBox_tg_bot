@@ -2,28 +2,47 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, ParseMode
 
 from main import dp
-from messages.basic_messages import PARSE_TAGS_COMMAND_MESSAGE, REGEX_TAGS_TEXT_ERROR, LOWER_THEN_MIN_ROWS_MESSAGE
+from messages.basic_messages import PARSE_RE_EVAL_COMMAND_MESSAGE, REGEX_TAGS_TEXT_ERROR, LOWER_THEN_MIN_ROWS_MESSAGE, \
+    PARSE_STOCK_COMMAND_MESSAGE
 from states import AbibasForm
 from utils.commands_utils import rows_portion_processing
-from utils.tags_parsing import parse_tags_from_text, regex_rows, count_parsed_tags
+from utils.tags_parsing import parse_tags_from_text, regex_upc_rows, count_parsed_tags, regex_upc_and_stock_rows
 
 
-@dp.message_handler(commands=["parse_tags"], state="*")
-async def parse_tags_command(message: Message):
+@dp.message_handler(commands=["re_evaluation"], state="*")
+async def parse_re_eval_command(message: Message):
     await message.answer(
-        text=PARSE_TAGS_COMMAND_MESSAGE, parse_mode=ParseMode.MARKDOWN_V2
+        text=PARSE_RE_EVAL_COMMAND_MESSAGE, parse_mode=ParseMode.MARKDOWN_V2
     )
-    await AbibasForm.rows.set()
+    await AbibasForm.re_evaluation.set()
 
 
-@dp.message_handler(state=AbibasForm.rows)
+@dp.message_handler(commands=["stock"], state="*")
+async def parse_stock_command(message: Message):
+    await message.answer(
+        text=PARSE_STOCK_COMMAND_MESSAGE, parse_mode=ParseMode.MARKDOWN_V2
+    )
+    await AbibasForm.stock.set()
+
+
+@dp.message_handler(state=[AbibasForm.re_evaluation, AbibasForm.stock])
 async def basic_message_handler(message: Message, state: FSMContext):
     text = message.text
-    matched_rows = regex_rows(text)
+    _state = await state.get_state()
+    if _state == AbibasForm.re_evaluation.state:
+        matched_rows = regex_upc_rows(text=text)
+    else:
+        matched_rows = regex_upc_and_stock_rows(text=text)
     if not matched_rows:
         await message.answer(
             text=REGEX_TAGS_TEXT_ERROR, parse_mode=ParseMode.MARKDOWN_V2
         )
+        return
+    if _state == AbibasForm.stock.state:
+        await message.answer(
+            text="\n".join(parse_tags_from_text(matched_rows))
+        )
+        await state.finish()
         return
     matched_rows = sorted(matched_rows)
     remaining_rows_count = len(matched_rows)

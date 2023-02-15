@@ -40,7 +40,8 @@ async def basic_message_handler(message: Message, state: FSMContext):
         return
     if _state == AbibasForm.stock.state:
         await message.answer(
-            text="\n".join(parse_tags_from_text(matched_rows))
+            text="\n".join(parse_tags_from_text(matched_rows)),
+            parse_mode=ParseMode.MARKDOWN_V2
         )
         await state.finish()
         return
@@ -66,3 +67,6 @@ async def basic_message_handler(message: Message, state: FSMContext):
             parse_mode=ParseMode.MARKDOWN_V2
         )
     await state.finish()
+
+
+# TODO: random meme command

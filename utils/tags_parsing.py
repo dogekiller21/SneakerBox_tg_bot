@@ -18,12 +18,11 @@ def parse_tags_from_text(rows: list[str]) -> list[str]:
     :param rows: list[str]
     :return: list[str]
     """
-    return list(map(str, (row.split(":")[1].strip() for row in rows)))
+    return [
+        f"*{value[1]}*" if value[0] == "[C128]" else value[1]
+        for value in (list(map(lambda x: str(x).strip(), row.split(":"))) for row in rows)
+    ]
 
 
 def count_parsed_tags(parsed_tags: list[str]) -> dict[str, int]:
     return {tag: count for tag, count in Counter(parsed_tags).items() if count > 1}
-
-
-def process_upc_rows(upc_rows: list[str]):
-    ...

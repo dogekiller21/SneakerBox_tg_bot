@@ -20,7 +20,9 @@ def parse_tags_from_text(rows: list[str]) -> list[str]:
     """
     return [
         f"*{value[1]}*" if value[0] == "[C128]" else value[1]
-        for value in (list(map(lambda x: str(x).strip(), row.split(":"))) for row in rows)
+        for value in (
+            list(map(lambda x: str(x).strip(), row.split(":"))) for row in rows
+        )
     ]
 
 

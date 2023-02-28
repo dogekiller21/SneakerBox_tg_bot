@@ -1,6 +1,6 @@
 from aiogram.types import Message, ParseMode, ChatActions
 
-from utils.memes_utils import get_random_pic_url
+from utils.memes_utils import reddit_meme_giver, Subreddits
 from utils.tags_parsing import parse_tags_from_text, count_parsed_tags
 
 
@@ -24,9 +24,10 @@ async def rows_portion_processing(rows_portion: list[str], message: Message):
     )
 
 
-async def send_random_pic(message: Message, subreddit: str = "cats"):
+async def send_random_pic(message: Message, subreddit: str = Subreddits.CATS):
     await ChatActions.upload_photo()
-    random_pic_url = await get_random_pic_url(subreddit=subreddit)
+    random_pic_url = await reddit_meme_giver.get_random_pic_url(subreddit=subreddit)
     if random_pic_url is None:
         await message.answer(text="Произошла ошибка, попробуйте позже :(")
+        return
     await message.answer_photo(photo=random_pic_url)

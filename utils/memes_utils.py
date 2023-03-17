@@ -1,10 +1,9 @@
-import asyncio
 import logging
 
 from asyncpraw import Reddit
 from asyncprawcore import ResponseException
 
-from config import REDDIT_CLIENT_ID, REDDIT_SECRET
+from config import REDDIT_CLIENT_ID, REDDIT_SECRET, REDDIT_PASSWORD, REDDIT_USERNAME
 
 
 class Subreddits:
@@ -22,7 +21,9 @@ class RedditMemeGiver:
             self.reddit = Reddit(
                 client_id=REDDIT_CLIENT_ID,
                 client_secret=REDDIT_SECRET,
-                user_agent="ubuntu:sneaker_bot:v0.1.1 (by /u/dogekiller21)",
+                user_agent="ubuntu:sneaker_bot:v0.1.2 (by /u/dogekiller21)",
+                password=REDDIT_PASSWORD,
+                username=REDDIT_USERNAME,
             )
         subreddit = await self.reddit.subreddit(display_name=subreddit)
         try:
